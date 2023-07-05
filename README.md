@@ -33,7 +33,10 @@ limitations under the License.
 ```
 
 # The Trade Desk
+
 ## Windows
+
 - Use VsCode and WSL
 - Install Go extension (enable for WSL)
+- Install Markdown lint
 - Don't install Go via Snap
