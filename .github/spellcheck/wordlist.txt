@@ -48,5 +48,6 @@ uptime
 URI
 URIs
 validator
+WSL
 yaml
 YAML

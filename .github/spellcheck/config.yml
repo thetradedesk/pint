@@ -16,7 +16,6 @@ matrix:
           ignores:
             - code
             - pre
-            - WSL
     sources:
       - "*.md"
       - "**/*.md"
