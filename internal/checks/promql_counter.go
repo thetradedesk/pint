@@ -3,6 +3,7 @@ package checks
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	v1 "github.com/prometheus/client_golang/api/prometheus/v1"
 	promParser "github.com/prometheus/prometheus/promql/parser"
@@ -15,6 +16,8 @@ import (
 const (
 	CounterCheckName = "promql/counter"
 )
+
+var AllowedCounterFuncNames = []string{"rate", "irate", "increase", "absent", "absent_over_time"}
 
 func NewCounterCheck(prom *promapi.FailoverGroup) CounterCheck {
 	return CounterCheck{prom: prom}
@@ -91,9 +94,12 @@ func (c CounterCheck) checkNode(ctx context.Context, node *parser.PromQLNode, en
 		}
 
 		if isCounterMap.values[s.Name] && !parentUsesRate {
+			allowedFuncString := "`" + strings.Join(AllowedCounterFuncNames, "`, `") + "`"
+
 			p := exprProblem{
-				expr:     node.Expr,
-				text:     fmt.Sprintf("counter metric `%s` should be used with `rate`, `irate` or `increase` ", s.Name),
+				expr: node.Expr,
+				text: fmt.Sprintf("Counter metric `%s` should be used with one of following functions: (%s).", s.Name, allowedFuncString),
+				// There can be valid edge cases like a recording rule: `foo{label="value"}` or being constrained to use a counter as an info metric for joining.
 				severity: Warning,
 			}
 			problems = append(problems, p)
@@ -102,7 +108,8 @@ func (c CounterCheck) checkNode(ctx context.Context, node *parser.PromQLNode, en
 	// Matrix wraps a single vector, we will retain `parentUsesRate` value. (e.g. rate(x) or rate(x[2m]) are treated equally)
 	if _, ok := node.Node.(*promParser.MatrixSelector); !ok {
 		parentUsesRate = false
-		if n, ok := node.Node.(*promParser.Call); ok && (n.Func.Name == "rate" || n.Func.Name == "irate" || n.Func.Name == "increase" || n.Func.Name == "absent" || n.Func.Name == "absent_over_time") {
+
+		if n, ok := node.Node.(*promParser.Call); ok && contains(AllowedCounterFuncNames, n.Func.Name) {
 			parentUsesRate = true
 		}
 	}
@@ -112,6 +119,15 @@ func (c CounterCheck) checkNode(ctx context.Context, node *parser.PromQLNode, en
 	}
 
 	return problems
+}
+
+func contains(slice []string, value string) bool {
+	for _, v := range slice {
+		if v == value {
+			return true
+		}
+	}
+	return false
 }
 
 type IsCounterMapForCounterCheck struct {

@@ -2,6 +2,7 @@ package checks_test
 
 import (
 	"fmt"
+	"strings"
 	"testing"
 
 	v1 "github.com/prometheus/client_golang/api/prometheus/v1"
@@ -15,7 +16,8 @@ func newCounterCheck(prom *promapi.FailoverGroup) checks.RuleChecker {
 }
 
 func CounterMustUseRateText(name string) string {
-	return fmt.Sprintf("counter metric `%s` should be used with `rate`, `irate` or `increase` ", name)
+	allowedFuncString := "`" + strings.Join(checks.AllowedCounterFuncNames, "`, `") + "`"
+	return fmt.Sprintf("Counter metric `%s` should be used with one of following functions: (%s).", name, allowedFuncString)
 }
 
 func TestCounterCheck(t *testing.T) {
