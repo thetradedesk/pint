@@ -2,8 +2,9 @@ package checks_test
 
 import (
 	"fmt"
-	v1 "github.com/prometheus/client_golang/api/prometheus/v1"
 	"testing"
+
+	v1 "github.com/prometheus/client_golang/api/prometheus/v1"
 
 	"github.com/cloudflare/pint/internal/checks"
 	"github.com/cloudflare/pint/internal/promapi"

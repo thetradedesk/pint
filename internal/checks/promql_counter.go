@@ -3,11 +3,13 @@ package checks
 import (
 	"context"
 	"fmt"
+
+	v1 "github.com/prometheus/client_golang/api/prometheus/v1"
+	promParser "github.com/prometheus/prometheus/promql/parser"
+
 	"github.com/cloudflare/pint/internal/discovery"
 	"github.com/cloudflare/pint/internal/parser"
 	"github.com/cloudflare/pint/internal/promapi"
-	v1 "github.com/prometheus/client_golang/api/prometheus/v1"
-	promParser "github.com/prometheus/prometheus/promql/parser"
 )
 
 const (
@@ -58,7 +60,6 @@ func (c CounterCheck) Check(ctx context.Context, _ string, rule parser.Rule, ent
 }
 
 func (c CounterCheck) checkNode(ctx context.Context, node *parser.PromQLNode, entries []discovery.Entry, parentUsesRate bool, isCounterMap *IsCounterMapForCounterCheck) (problems []exprProblem) {
-
 	if s, ok := node.Node.(*promParser.VectorSelector); ok {
 		isCounter, ok := isCounterMap.values[s.Name]
 		if ok {
