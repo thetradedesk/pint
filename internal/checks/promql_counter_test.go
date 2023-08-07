@@ -20,6 +20,21 @@ func CounterMustUseRateText(name string) string {
 func TestCounterCheck(t *testing.T) {
 	testCases := []checkTest{
 		{
+			description: "use gauge without rate",
+			content:     "- record: foo\n  expr: bar + bar + bar\n",
+			checker:     newCounterCheck,
+			prometheus:  newSimpleProm,
+			problems:    noProblems,
+			mocks: []*prometheusMock{
+				{
+					conds: []requestCondition{requireMetadataPath},
+					resp: metadataResponse{metadata: map[string][]v1.Metadata{
+						"bar": {{Type: "gauge"}},
+					}},
+				},
+			},
+		},
+		{
 			description: "use counter with rate",
 			content:     "- record: foo\n  expr: rate(foo[1m])\n",
 			checker:     newCounterCheck,
@@ -46,7 +61,7 @@ func TestCounterCheck(t *testing.T) {
 						Lines:    []int{2},
 						Reporter: "promql/counter",
 						Text:     CounterMustUseRateText("foo"),
-						Severity: checks.Bug,
+						Severity: checks.Warning,
 					},
 				}
 			},
@@ -71,7 +86,7 @@ func TestCounterCheck(t *testing.T) {
 						Lines:    []int{2},
 						Reporter: "promql/counter",
 						Text:     CounterMustUseRateText("foo"),
-						Severity: checks.Bug,
+						Severity: checks.Warning,
 					},
 				}
 			},
