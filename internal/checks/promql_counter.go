@@ -27,7 +27,7 @@ func (c CounterCheck) Meta() CheckMeta {
 }
 
 func (c CounterCheck) String() string {
-	return CounterCheckName
+	return fmt.Sprintf("%s(%s)", CounterCheckName, c.prom.Name())
 }
 
 func (c CounterCheck) Reporter() string {
@@ -98,9 +98,8 @@ func (c CounterCheck) checkNode(ctx context.Context, node *parser.PromQLNode, en
 			problems = append(problems, p)
 		}
 	}
-	if _, ok := node.Node.(*promParser.MatrixSelector); ok {
-		// Matrix wraps a single vector, we will retain `parentUsesRate` value. (e.g. rate(x) or rate(x[2m]) are treated equally)
-	} else {
+	// Matrix wraps a single vector, we will retain `parentUsesRate` value. (e.g. rate(x) or rate(x[2m]) are treated equally)
+	if _, ok := node.Node.(*promParser.MatrixSelector); !ok {
 		parentUsesRate = false
 		if n, ok := node.Node.(*promParser.Call); ok && (n.Func.Name == "rate" || n.Func.Name == "irate" || n.Func.Name == "increase" || n.Func.Name == "absent" || n.Func.Name == "absent_over_time") {
 			parentUsesRate = true

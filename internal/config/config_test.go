@@ -889,6 +889,7 @@ prometheus "prom1" {
 				checks.RangeQueryCheckName + "(prom1)",
 				checks.RuleDuplicateCheckName + "(prom1)",
 				checks.LabelsConflictCheckName + "(prom1)",
+				checks.CounterCheckName + "(prom1)",
 				checks.AlertsCheckName + "(prom1)",
 			},
 		},
