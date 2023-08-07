@@ -62,7 +62,7 @@ func (c CounterCheck) Check(ctx context.Context, _ string, rule parser.Rule, ent
 	return problems
 }
 
-func (c CounterCheck) checkNode(ctx context.Context, node *parser.PromQLNode, entries []discovery.Entry, parentUsesRate bool, isCounterMap *IsCounterMapForCounterCheck) (problems []exprProblem) {
+func (c CounterCheck) checkNode(ctx context.Context, node *parser.PromQLNode, entries []discovery.Entry, parentUsesAllowedFunction bool, isCounterMap *IsCounterMapForCounterCheck) (problems []exprProblem) {
 	if s, ok := node.Node.(*promParser.VectorSelector); ok {
 		isCounter, ok := isCounterMap.values[s.Name]
 		if ok {
@@ -93,7 +93,7 @@ func (c CounterCheck) checkNode(ctx context.Context, node *parser.PromQLNode, en
 			isCounterMap.values[s.Name] = isCounter
 		}
 
-		if isCounterMap.values[s.Name] && !parentUsesRate {
+		if isCounterMap.values[s.Name] && !parentUsesAllowedFunction {
 			allowedFuncString := "`" + strings.Join(AllowedCounterFuncNames, "`, `") + "`"
 
 			p := exprProblem{
@@ -105,17 +105,17 @@ func (c CounterCheck) checkNode(ctx context.Context, node *parser.PromQLNode, en
 			problems = append(problems, p)
 		}
 	}
-	// Matrix wraps a single vector, we will retain `parentUsesRate` value. (e.g. rate(x) or rate(x[2m]) are treated equally)
+	// Matrix wraps a single vector, we will retain `parentUsesAllowedFunction` value. (e.g. rate(x) or rate(x[2m]) are treated equally)
 	if _, ok := node.Node.(*promParser.MatrixSelector); !ok {
-		parentUsesRate = false
+		parentUsesAllowedFunction = false
 
 		if n, ok := node.Node.(*promParser.Call); ok && contains(AllowedCounterFuncNames, n.Func.Name) {
-			parentUsesRate = true
+			parentUsesAllowedFunction = true
 		}
 	}
 
 	for _, child := range node.Children {
-		problems = append(problems, c.checkNode(ctx, child, entries, parentUsesRate, isCounterMap)...)
+		problems = append(problems, c.checkNode(ctx, child, entries, parentUsesAllowedFunction, isCounterMap)...)
 	}
 
 	return problems
