@@ -2,6 +2,7 @@ APIs
 automaxprocs
 BitBucket
 bool
+cardinality
 changelog
 Changelog
 CLI

@@ -10,7 +10,7 @@ This check inspects counter metrics used in queries to verify that the raw count
 
 A counter should be wrapped by one of the following functions:
 
-- `rate`, `irate`, `increase` - performing calculations while handling counter resets (https://promlabs.com/blog/2021/01/29/how-exactly-does-promql-calculate-rates/)
+- `rate`, `irate`, `increase` - [performing rate calculations while handling counter resets](https://promlabs.com/blog/2021/01/29/how-exactly-does-promql-calculate-rates/)
 - `count`, `count_over_time`, `absent`, `absent_over_time` - these are common and valid use cases of any raw metric
 
 ## Common problems
