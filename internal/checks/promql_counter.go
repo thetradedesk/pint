@@ -17,7 +17,7 @@ const (
 	CounterCheckName = "promql/counter"
 )
 
-var AllowedCounterFuncNames = []string{"rate", "irate", "increase", "absent", "absent_over_time"}
+var AllowedCounterFuncNames = []string{"rate", "irate", "increase", "absent", "absent_over_time", "count", "count_over_time"}
 
 func NewCounterCheck(prom *promapi.FailoverGroup) CounterCheck {
 	return CounterCheck{prom: prom}
