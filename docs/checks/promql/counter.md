@@ -19,7 +19,8 @@ A counter should be wrapped by one of the following functions:
 
 While this check is useful in identifying misuse of raw counters, we recognize there are rare but valid use cases.
 
-E.g.
+Some examples:
+
 - a recording rule that evaluates a raw counter with label matchers (e.g. for filtering a subset of high cardinality metrics)
 - an alert that uses a counter as an info metric to join labels
 
