@@ -18,8 +18,8 @@ const (
 )
 
 var (
-	AllowedCounterFuncsForRecordingRules = []string{"rate", "irate", "increase", "absent", "absent_over_time", "count", "count_over_time", "present_over_time"}
 	AllowedCounterFuncsForAlerts         = []string{"rate", "increase", "absent", "absent_over_time", "count", "count_over_time", "present_over_time"}
+	AllowedCounterFuncsForRecordingRules = append(AllowedCounterFuncsForAlerts, "irate")
 )
 
 func NewCounterCheck(prom *promapi.FailoverGroup) CounterCheck {
