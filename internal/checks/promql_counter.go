@@ -17,7 +17,10 @@ const (
 	CounterCheckName = "promql/counter"
 )
 
-var AllowedCounterFuncNames = []string{"rate", "irate", "increase", "absent", "absent_over_time", "count", "count_over_time"}
+var (
+	AllowedCounterFuncsForRecordingRules = []string{"rate", "irate", "increase", "absent", "absent_over_time", "count", "count_over_time", "present_over_time"}
+	AllowedCounterFuncsForAlerts         = []string{"rate", "increase", "absent", "absent_over_time", "count", "count_over_time", "present_over_time"}
+)
 
 func NewCounterCheck(prom *promapi.FailoverGroup) CounterCheck {
 	return CounterCheck{prom: prom}
@@ -42,14 +45,16 @@ func (c CounterCheck) Reporter() string {
 func (c CounterCheck) Check(ctx context.Context, _ string, rule parser.Rule, entries []discovery.Entry) (problems []Problem) {
 	expr := rule.Expr()
 
-	if expr.SyntaxError != nil {
+	if expr.SyntaxError != nil || (rule.AlertingRule == nil && rule.RecordingRule == nil) {
 		return problems
 	}
+
+	isAlertRule := rule.AlertingRule != nil
 
 	isCounterMap := &IsCounterMapForCounterCheck{
 		values: make(map[string]bool),
 	}
-	for _, problem := range c.checkNode(ctx, expr.Query, entries, false, isCounterMap) {
+	for _, problem := range c.checkNode(ctx, expr.Query, entries, false, isAlertRule, isCounterMap) {
 		problems = append(problems, Problem{
 			Fragment: problem.expr,
 			Lines:    expr.Lines(),
@@ -62,7 +67,12 @@ func (c CounterCheck) Check(ctx context.Context, _ string, rule parser.Rule, ent
 	return problems
 }
 
-func (c CounterCheck) checkNode(ctx context.Context, node *parser.PromQLNode, entries []discovery.Entry, parentUsesAllowedFunction bool, isCounterMap *IsCounterMapForCounterCheck) (problems []exprProblem) {
+func (c CounterCheck) checkNode(ctx context.Context, node *parser.PromQLNode, entries []discovery.Entry, parentUsesAllowedFunction, isAlertRule bool, isCounterMap *IsCounterMapForCounterCheck) (problems []exprProblem) {
+	allowedFuncs := AllowedCounterFuncsForRecordingRules
+	if isAlertRule {
+		allowedFuncs = AllowedCounterFuncsForAlerts
+	}
+
 	if s, ok := node.Node.(*promParser.VectorSelector); ok {
 		isCounter, ok := isCounterMap.values[s.Name]
 		if ok {
@@ -92,9 +102,8 @@ func (c CounterCheck) checkNode(ctx context.Context, node *parser.PromQLNode, en
 
 			isCounterMap.values[s.Name] = isCounter
 		}
-
 		if isCounterMap.values[s.Name] && !parentUsesAllowedFunction {
-			allowedFuncString := "`" + strings.Join(AllowedCounterFuncNames, "`, `") + "`"
+			allowedFuncString := "`" + strings.Join(allowedFuncs, "`, `") + "`"
 
 			p := exprProblem{
 				expr: node.Expr,
@@ -105,17 +114,18 @@ func (c CounterCheck) checkNode(ctx context.Context, node *parser.PromQLNode, en
 			problems = append(problems, p)
 		}
 	}
+
 	// Matrix wraps a single vector, we will retain `parentUsesAllowedFunction` value. (e.g. rate(x) or rate(x[2m]) are treated equally)
 	if _, ok := node.Node.(*promParser.MatrixSelector); !ok {
 		parentUsesAllowedFunction = false
 
-		if n, ok := node.Node.(*promParser.Call); ok && contains(AllowedCounterFuncNames, n.Func.Name) {
+		if n, ok := node.Node.(*promParser.Call); ok && contains(allowedFuncs, n.Func.Name) {
 			parentUsesAllowedFunction = true
 		}
 	}
 
 	for _, child := range node.Children {
-		problems = append(problems, c.checkNode(ctx, child, entries, parentUsesAllowedFunction, isCounterMap)...)
+		problems = append(problems, c.checkNode(ctx, child, entries, parentUsesAllowedFunction, isAlertRule, isCounterMap)...)
 	}
 
 	return problems

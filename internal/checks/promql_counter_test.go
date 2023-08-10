@@ -15,8 +15,13 @@ func newCounterCheck(prom *promapi.FailoverGroup) checks.RuleChecker {
 	return checks.NewCounterCheck(prom)
 }
 
-func CounterMustUseRateText(name string) string {
-	allowedFuncString := "`" + strings.Join(checks.AllowedCounterFuncNames, "`, `") + "`"
+func CounterMustUseFuncTextForAlert(name string) string {
+	allowedFuncString := "`" + strings.Join(checks.AllowedCounterFuncsForAlerts, "`, `") + "`"
+	return fmt.Sprintf("Counter metric `%s` should be used with one of following functions: (%s).", name, allowedFuncString)
+}
+
+func CounterMustUseFuncTextForRecordingRule(name string) string {
+	allowedFuncString := "`" + strings.Join(checks.AllowedCounterFuncsForRecordingRules, "`, `") + "`"
 	return fmt.Sprintf("Counter metric `%s` should be used with one of following functions: (%s).", name, allowedFuncString)
 }
 
@@ -39,7 +44,22 @@ func TestCounterCheck(t *testing.T) {
 		},
 		{
 			description: "use counter with rate",
-			content:     "- record: foo\n  expr: rate(foo[1m])\n",
+			content:     "- record: foo\n  expr: irate(foo[1m])\n",
+			checker:     newCounterCheck,
+			prometheus:  newSimpleProm,
+			problems:    noProblems,
+			mocks: []*prometheusMock{
+				{
+					conds: []requestCondition{requireMetadataPath},
+					resp: metadataResponse{metadata: map[string][]v1.Metadata{
+						"foo": {{Type: "counter"}},
+					}},
+				},
+			},
+		},
+		{
+			description: "use counter with absent",
+			content:     "- record: foo\n  expr: absent(foo) \n",
 			checker:     newCounterCheck,
 			prometheus:  newSimpleProm,
 			problems:    noProblems,
@@ -63,7 +83,7 @@ func TestCounterCheck(t *testing.T) {
 						Fragment: "foo offset 1m",
 						Lines:    []int{2},
 						Reporter: "promql/counter",
-						Text:     CounterMustUseRateText("foo"),
+						Text:     CounterMustUseFuncTextForRecordingRule("foo"),
 						Severity: checks.Warning,
 					},
 				}
@@ -88,7 +108,32 @@ func TestCounterCheck(t *testing.T) {
 						Fragment: "foo",
 						Lines:    []int{2},
 						Reporter: "promql/counter",
-						Text:     CounterMustUseRateText("foo"),
+						Text:     CounterMustUseFuncTextForRecordingRule("foo"),
+						Severity: checks.Warning,
+					},
+				}
+			},
+			mocks: []*prometheusMock{
+				{
+					conds: []requestCondition{requireMetadataPath},
+					resp: metadataResponse{metadata: map[string][]v1.Metadata{
+						"foo": {{Type: "counter"}},
+					}},
+				},
+			},
+		},
+		{
+			description: "use counter with irate in alert",
+			content:     "- alert: my alert\n  expr: irate(foo[5m])\n",
+			checker:     newCounterCheck,
+			prometheus:  newSimpleProm,
+			problems: func(uri string) []checks.Problem {
+				return []checks.Problem{
+					{
+						Fragment: "foo",
+						Lines:    []int{2},
+						Reporter: "promql/counter",
+						Text:     CounterMustUseFuncTextForAlert("foo"),
 						Severity: checks.Warning,
 					},
 				}
