@@ -167,6 +167,7 @@ prometheus "prom" {
 				checks.RangeQueryCheckName + "(prom)",
 				checks.RuleDuplicateCheckName + "(prom)",
 				checks.LabelsConflictCheckName + "(prom)",
+				checks.CounterCheckName + "(prom)",
 			},
 		},
 		{
@@ -192,6 +193,7 @@ prometheus "prom" {
 				checks.RangeQueryCheckName + "(prom)",
 				checks.RuleDuplicateCheckName + "(prom)",
 				checks.LabelsConflictCheckName + "(prom)",
+				checks.CounterCheckName + "(prom)",
 			},
 		},
 		{
@@ -312,6 +314,7 @@ prometheus "prom" {
 				checks.RangeQueryCheckName + "(prom)",
 				checks.RuleDuplicateCheckName + "(prom)",
 				checks.LabelsConflictCheckName + "(prom)",
+				checks.CounterCheckName + "(prom)",
 			},
 		},
 		{
@@ -342,6 +345,7 @@ prometheus "ignore" {
 				checks.RangeQueryCheckName + "(prom)",
 				checks.RuleDuplicateCheckName + "(prom)",
 				checks.LabelsConflictCheckName + "(prom)",
+				checks.CounterCheckName + "(prom)",
 			},
 		},
 		{
@@ -477,6 +481,7 @@ prometheus "prom2" {
 				checks.RangeQueryCheckName + "(prom2)",
 				checks.RuleDuplicateCheckName + "(prom2)",
 				checks.CostCheckName + "(prom1)",
+				checks.CounterCheckName + "(prom1)",
 			},
 		},
 		{
@@ -889,8 +894,8 @@ prometheus "prom1" {
 				checks.RangeQueryCheckName + "(prom1)",
 				checks.RuleDuplicateCheckName + "(prom1)",
 				checks.LabelsConflictCheckName + "(prom1)",
-				checks.CounterCheckName + "(prom1)",
 				checks.AlertsCheckName + "(prom1)",
+				checks.CounterCheckName + "(prom1)",
 			},
 		},
 		{
@@ -1317,12 +1322,14 @@ prometheus "prom3" {
 				checks.RangeQueryCheckName + "(prom2)",
 				checks.RuleDuplicateCheckName + "(prom2)",
 				checks.LabelsConflictCheckName + "(prom2)",
+				checks.CounterCheckName + "(prom2)",
 				checks.RateCheckName + "(prom3)",
 				checks.SeriesCheckName + "(prom3)",
 				checks.VectorMatchingCheckName + "(prom3)",
 				checks.RangeQueryCheckName + "(prom3)",
 				checks.RuleDuplicateCheckName + "(prom3)",
 				checks.LabelsConflictCheckName + "(prom3)",
+				checks.CounterCheckName + "(prom3)",
 			},
 		},
 		{
@@ -1366,12 +1373,14 @@ prometheus "prom3" {
 				checks.RangeQueryCheckName + "(prom2)",
 				checks.RuleDuplicateCheckName + "(prom2)",
 				checks.LabelsConflictCheckName + "(prom2)",
+				checks.CounterCheckName + "(prom2)",
 				checks.RateCheckName + "(prom3)",
 				checks.SeriesCheckName + "(prom3)",
 				checks.VectorMatchingCheckName + "(prom3)",
 				checks.RangeQueryCheckName + "(prom3)",
 				checks.RuleDuplicateCheckName + "(prom3)",
 				checks.LabelsConflictCheckName + "(prom3)",
+				checks.CounterCheckName + "(prom3)",
 			},
 		},
 	}
