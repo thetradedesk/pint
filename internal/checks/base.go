@@ -22,6 +22,7 @@ var (
 		FragileCheckName,
 		RangeQueryCheckName,
 		RateCheckName,
+		CounterCheckName,
 		RegexpCheckName,
 		SyntaxCheckName,
 		VectorMatchingCheckName,
@@ -32,19 +33,18 @@ var (
 		LabelCheckName,
 		RuleLinkCheckName,
 		RejectCheckName,
-		CounterCheckName,
 	}
 	OnlineChecks = []string{
 		AlertsCheckName,
 		LabelsConflictCheckName,
 		RangeQueryCheckName,
 		RateCheckName,
+		CounterCheckName,
 		VectorMatchingCheckName,
 		CostCheckName,
 		SeriesCheckName,
 		RuleDuplicateCheckName,
 		RuleLinkCheckName,
-		CounterCheckName,
 	}
 )
 

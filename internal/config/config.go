@@ -134,6 +134,11 @@ func (cfg *Config) GetChecksForRule(ctx context.Context, path string, r parser.R
 			tags:  p.Tags(),
 		})
 		allChecks = append(allChecks, checkMeta{
+			name:  checks.CounterCheckName,
+			check: checks.NewCounterCheck(p),
+			tags:  p.Tags(),
+		})
+		allChecks = append(allChecks, checkMeta{
 			name:  checks.SeriesCheckName,
 			check: checks.NewSeriesCheck(p),
 			tags:  p.Tags(),
@@ -156,12 +161,6 @@ func (cfg *Config) GetChecksForRule(ctx context.Context, path string, r parser.R
 		allChecks = append(allChecks, checkMeta{
 			name:  checks.LabelsConflictCheckName,
 			check: checks.NewLabelsConflictCheck(p),
-			tags:  p.Tags(),
-		})
-
-		allChecks = append(allChecks, checkMeta{
-			name:  checks.CounterCheckName,
-			check: checks.NewCounterCheck(p),
 			tags:  p.Tags(),
 		})
 	}
