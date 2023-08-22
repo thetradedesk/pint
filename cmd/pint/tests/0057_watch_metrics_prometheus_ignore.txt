@@ -1,5 +1,6 @@
 http slow-response prometheus /api/v1/status/config 100ms 500 Fatal error
 http slow-response prometheus /api/v1/query 200ms 400 {"status":"error","errorType":"bad_data","error":"bogus query"}
+http slow-response prometheus /api/v1/metadata 200ms 500  {"status":"error","data":{}]}}
 http start prometheus 127.0.0.1:7057
 
 exec bash -x ./test.sh &
@@ -54,6 +55,8 @@ pint_check_duration_seconds_sum{check="promql/range_query"}
 pint_check_duration_seconds_count{check="promql/range_query"}
 pint_check_duration_seconds_sum{check="promql/rate"}
 pint_check_duration_seconds_count{check="promql/rate"}
+pint_check_duration_seconds_sum{check="promql/counter"}
+pint_check_duration_seconds_count{check="promql/counter"}
 pint_check_duration_seconds_sum{check="promql/regexp"}
 pint_check_duration_seconds_count{check="promql/regexp"}
 pint_check_duration_seconds_sum{check="promql/series"}

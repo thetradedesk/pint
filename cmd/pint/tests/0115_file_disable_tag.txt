@@ -12,6 +12,7 @@ level=debug msg="Stopping query workers" name=prom uri=http://127.0.0.1:7103
 -- rules/0001.yml --
 # pint file/disable promql/series(+bar)
 # pint file/disable promql/rate(+bar)
+# pint file/disable promql/counter(+bar)
 # pint file/disable promql/range_query(+bar)
 # pint file/disable labels/conflict(+foo)
 

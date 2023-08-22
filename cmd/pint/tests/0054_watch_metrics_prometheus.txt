@@ -1,5 +1,6 @@
 http slow-response prometheus /api/v1/status/config 100ms 500 Fatal Error
 http slow-response prometheus /api/v1/query 400ms 200 {"status":"error","errorType":"bad_data","error":"bogus query"}
+http slow-response prometheus /api/v1/metadata 200ms 200  {"status":"error","data":{}]}}
 http start prometheus 127.0.0.1:7054
 
 exec bash -x ./test.sh &

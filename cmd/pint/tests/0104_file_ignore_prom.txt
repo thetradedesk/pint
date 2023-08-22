@@ -11,6 +11,7 @@ stderr 'level=info msg="Problems found" Bug=3'
 # This should skip all online checks
 # pint file/disable promql/series
 #  pint  file/disable  promql/rate
+#  pint  file/disable  promql/counter
 #
 # pint file/disable alerts/count
 #   pint   file/disable   promql/range_query
