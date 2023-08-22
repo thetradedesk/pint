@@ -132,15 +132,15 @@ func (c CounterCheck) checkNode(ctx context.Context, node *parser.PromQLNode, en
 		for _, child := range node.Children {
 			isLHS := n.LHS.String() == child.Expr
 			if isLHS {
-				problems = append(problems, c.checkNode(ctx, child, entries, false, isAlertRule, isCounterMap)...)
+				parentUsesAllowedFunction = false
 			} else {
-				problems = append(problems, c.checkNode(ctx, child, entries, true, isAlertRule, isCounterMap)...)
+				parentUsesAllowedFunction = true
 			}
+			problems = append(problems, c.checkNode(ctx, child, entries, parentUsesAllowedFunction, isAlertRule, isCounterMap)...)
 		}
 	} else {
 		for _, child := range node.Children {
 			problems = append(problems, c.checkNode(ctx, child, entries, parentUsesAllowedFunction, isAlertRule, isCounterMap)...)
-
 		}
 	}
 	return problems
