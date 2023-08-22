@@ -2,6 +2,7 @@ package checks
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 
@@ -78,6 +79,10 @@ func ParseSeverity(s string) (Severity, error) {
 	default:
 		return Fatal, fmt.Errorf("unknown severity: %s", s)
 	}
+}
+
+func (s Severity) MarshalJSON() ([]byte, error) {
+	return json.Marshal(s.String())
 }
 
 const (

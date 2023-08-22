@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.45.0
+
+### Added
+
+- The `query/cost` check can now use Prometheus query stats to verify query
+  evaluation time and the number of samples used by a query. See
+  [query/cost](checks/query/cost.md) docs for details.
+
+## v0.44.2
+
+### Fixed
+
+- Fixed a crash in `promql/series` check when Prometheus instance becomes
+  unavailable - #682.
+- Fixed false positive reports in `alerts/template` check - #681.
+
 ## v0.44.1
 
 ### Fixed
