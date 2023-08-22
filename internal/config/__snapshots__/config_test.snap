@@ -3638,6 +3638,7 @@
     ],
     "disabled": [
       "promql/rate",
+      "promql/counter",
       "promql/vector_matching",
       "promql/range_query",
       "rule/duplicate",
@@ -5890,6 +5891,7 @@
     ],
     "disabled": [
       "promql/rate",
+      "promql/counter",
       "promql/vector_matching",
       "promql/range_query",
       "rule/duplicate",
@@ -8142,6 +8144,7 @@
     ],
     "disabled": [
       "promql/rate",
+      "promql/counter",
       "promql/vector_matching",
       "promql/range_query",
       "rule/duplicate",
@@ -10394,6 +10397,7 @@
     ],
     "disabled": [
       "promql/rate",
+      "promql/counter",
       "promql/vector_matching",
       "promql/range_query",
       "rule/duplicate",
