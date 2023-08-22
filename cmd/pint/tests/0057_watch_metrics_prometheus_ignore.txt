@@ -142,7 +142,7 @@ pint_prometheus_queries_total{endpoint="/api/v1/status/flags",name="prom2"}
 # TYPE pint_prometheus_query_errors_total counter
 pint_prometheus_query_errors_total{endpoint="/api/v1/metadata",name="prom1",reason="api/server_error"}
 pint_prometheus_query_errors_total{endpoint="/api/v1/metadata",name="prom2",reason="connection/error"}
-pint_prometheus_query_errors_total{endpoint="/api/v1/query",name="prom1",reason="api/server_error"}
+pint_prometheus_query_errors_total{endpoint="/api/v1/query",name="prom1",reason="api/bad_data"}
 pint_prometheus_query_errors_total{endpoint="/api/v1/query",name="prom2",reason="connection/error"}
 pint_prometheus_query_errors_total{endpoint="/api/v1/status/config",name="prom1",reason="api/server_error"}
 pint_prometheus_query_errors_total{endpoint="/api/v1/status/config",name="prom2",reason="connection/error"}
