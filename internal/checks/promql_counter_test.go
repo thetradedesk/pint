@@ -28,6 +28,61 @@ func CounterMustUseFuncTextForRecordingRule(name string) string {
 func TestCounterCheck(t *testing.T) {
 	testCases := []checkTest{
 		{
+			description: "use counter with count",
+			content:     "- record: foo\n  expr:  max(count(foo)) \n   ",
+			checker:     newCounterCheck,
+			prometheus:  newSimpleProm,
+			problems:    noProblems,
+			mocks: []*prometheusMock{
+				{
+					conds: []requestCondition{requireMetadataPath},
+					resp: metadataResponse{metadata: map[string][]v1.Metadata{
+						"foo": {{Type: "counter"}},
+					}},
+				},
+			},
+		},
+		{
+			description: "use counter on RHS of unless",
+			content:     "- record: foo\n  expr:  foo unless on () bar  \n   ",
+			checker:     newCounterCheck,
+			prometheus:  newSimpleProm,
+			problems:    noProblems,
+			mocks: []*prometheusMock{
+				{
+					conds: []requestCondition{requireMetadataPath},
+					resp: metadataResponse{metadata: map[string][]v1.Metadata{
+						"bar": {{Type: "counter"}},
+					}},
+				},
+			},
+		},
+		{
+			description: "use counter on LHS of unless",
+			content:     "- record: foo\n  expr:  foo unless on () bar  \n   ",
+			checker:     newCounterCheck,
+			prometheus:  newSimpleProm,
+			problems: func(uri string) []checks.Problem {
+				return []checks.Problem{
+					{
+						Fragment: "foo",
+						Lines:    []int{2},
+						Reporter: "promql/counter",
+						Text:     CounterMustUseFuncTextForRecordingRule("foo"),
+						Severity: checks.Warning,
+					},
+				}
+			},
+			mocks: []*prometheusMock{
+				{
+					conds: []requestCondition{requireMetadataPath},
+					resp: metadataResponse{metadata: map[string][]v1.Metadata{
+						"foo": {{Type: "counter"}},
+					}},
+				},
+			},
+		},
+		{
 			description: "use gauge without rate",
 			content:     "- record: foo\n  expr: bar + bar + bar\n",
 			checker:     newCounterCheck,

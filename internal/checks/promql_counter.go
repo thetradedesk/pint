@@ -18,8 +18,9 @@ const (
 )
 
 var (
-	AllowedCounterFuncsForAlerts         = []string{"rate", "increase", "absent", "absent_over_time", "count", "count_over_time", "present_over_time"}
+	AllowedCounterFuncsForAlerts         = []string{"rate", "increase", "absent", "absent_over_time", "count", "count_over_time", "present_over_time", "count_values"}
 	AllowedCounterFuncsForRecordingRules = append(AllowedCounterFuncsForAlerts, "irate")
+	AllowedCounterBinaryOperators        = []string{"or", "unless"}
 )
 
 func NewCounterCheck(prom *promapi.FailoverGroup) CounterCheck {
@@ -121,13 +122,27 @@ func (c CounterCheck) checkNode(ctx context.Context, node *parser.PromQLNode, en
 
 		if n, ok := node.Node.(*promParser.Call); ok && contains(allowedFuncs, n.Func.Name) {
 			parentUsesAllowedFunction = true
+		} else if n, ok := node.Node.(*promParser.AggregateExpr); ok && contains(allowedFuncs, n.Op.String()) {
+			parentUsesAllowedFunction = true
 		}
 	}
 
-	for _, child := range node.Children {
-		problems = append(problems, c.checkNode(ctx, child, entries, parentUsesAllowedFunction, isAlertRule, isCounterMap)...)
-	}
+	// we excuse the RHS if it's a counter and only its labels are used and its value is discarded.
+	if n, ok := node.Node.(*promParser.BinaryExpr); ok && contains(AllowedCounterBinaryOperators, n.Op.String()) {
+		for _, child := range node.Children {
+			isLHS := n.LHS.String() == child.Expr
+			if isLHS {
+				problems = append(problems, c.checkNode(ctx, child, entries, false, isAlertRule, isCounterMap)...)
+			} else {
+				problems = append(problems, c.checkNode(ctx, child, entries, true, isAlertRule, isCounterMap)...)
+			}
+		}
+	} else {
+		for _, child := range node.Children {
+			problems = append(problems, c.checkNode(ctx, child, entries, parentUsesAllowedFunction, isAlertRule, isCounterMap)...)
 
+		}
+	}
 	return problems
 }
 
