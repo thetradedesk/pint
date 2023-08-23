@@ -8,11 +8,12 @@ grand_parent: Documentation
 
 This check inspects counter metrics used in queries to verify that the raw counter value is not used in calculations.
 
-A counter should be wrapped by one of the following functions:
+A counter should be wrapped by one of the following operators/functions:
 
 - `rate`, `irate`, `increase` - [performing rate calculations while handling counter resets](https://promlabs.com/blog/2021/01/29/how-exactly-does-promql-calculate-rates/)
   - Note: [`irate` is excluded from alerting rules](https://www.robustperception.io/avoid-irate-in-alerts/).  
-- `count`, `count_over_time`, `absent`, `absent_over_time`, `present_over_time` - these are common and valid use cases of any raw metric
+- `count`, `count_over_time`, `absent`, `absent_over_time`, `present_over_time`, `count_values` - these are common and valid use cases of any raw metric
+- `or`, `unless` - only if the counter is on the right hand side of the operator. In those cases, we are retrieving the labels rather than the value of the counter
 
 ## Common problems
 
