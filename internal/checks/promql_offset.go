@@ -3,12 +3,12 @@ package checks
 import (
 	"context"
 	"fmt"
-	promParser "github.com/prometheus/prometheus/promql/parser"
 	"regexp"
 	"time"
 
 	"github.com/cloudflare/pint/internal/discovery"
 	"github.com/cloudflare/pint/internal/parser"
+	promParser "github.com/prometheus/prometheus/promql/parser"
 )
 
 const (
