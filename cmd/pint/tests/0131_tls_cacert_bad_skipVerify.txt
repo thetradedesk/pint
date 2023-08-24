@@ -3,6 +3,7 @@ http response prometheus /api/v1/status/flags 200 {"status":"success","data":{"s
 http response prometheus /api/v1/status/config 200 {"status":"success","data":{"yaml":"global:\n  scrape_interval: 30s\n"}}
 http response prometheus /api/v1/query_range 200 {"status":"success","data":{"resultType":"matrix","result":[]}}
 http response prometheus /api/v1/query 200 {"status":"success","data":{"resultType":"vector","result":[{"metric":{},"value":[1666873962.795,"1"]}]}}
+http response prometheus /api/v1/metadata 200  {"status":"success","data":{"foo":[{"type":"counter","help":"foo is a counter","unit":""}]}}
 http start prometheus 127.0.0.1:7131 $WORK/prom.pem $WORK/prom.key
 
 pint.ok -l debug --no-color lint rules

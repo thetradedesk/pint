@@ -162,6 +162,7 @@ prometheus "prom" {
 				checks.TemplateCheckName,
 				checks.FragileCheckName,
 				checks.RegexpCheckName, checks.RateCheckName + "(prom)",
+				checks.CounterCheckName + "(prom)",
 				checks.SeriesCheckName + "(prom)",
 				checks.VectorMatchingCheckName + "(prom)",
 				checks.RangeQueryCheckName + "(prom)",
@@ -187,6 +188,7 @@ prometheus "prom" {
 				checks.TemplateCheckName,
 				checks.FragileCheckName,
 				checks.RegexpCheckName, checks.RateCheckName + "(prom)",
+				checks.CounterCheckName + "(prom)",
 				checks.SeriesCheckName + "(prom)",
 				checks.VectorMatchingCheckName + "(prom)",
 				checks.RangeQueryCheckName + "(prom)",
@@ -212,6 +214,7 @@ checks {
 			path: "rules.yml",
 			rule: newRule(t, `
 # pint disable promql/rate
+# pint disable promql/counter
 # pint disable promql/series
 # pint disable promql/vector_matching
 # pint disable promql/range_query
@@ -307,6 +310,7 @@ prometheus "prom" {
 				checks.TemplateCheckName,
 				checks.FragileCheckName,
 				checks.RegexpCheckName, checks.RateCheckName + "(prom)",
+				checks.CounterCheckName + "(prom)",
 				checks.SeriesCheckName + "(prom)",
 				checks.VectorMatchingCheckName + "(prom)",
 				checks.RangeQueryCheckName + "(prom)",
@@ -337,6 +341,7 @@ prometheus "ignore" {
 				checks.TemplateCheckName,
 				checks.FragileCheckName,
 				checks.RegexpCheckName, checks.RateCheckName + "(prom)",
+				checks.CounterCheckName + "(prom)",
 				checks.SeriesCheckName + "(prom)",
 				checks.VectorMatchingCheckName + "(prom)",
 				checks.RangeQueryCheckName + "(prom)",
@@ -457,6 +462,7 @@ prometheus "prom2" {
 # pint disable query/cost(prom2)
 - record: foo
   # pint disable promql/rate(prom2)
+# pint disable promql/counter(prom2)
   # pint disable promql/vector_matching(prom1)
   # pint disable rule/duplicate(prom1)
   # pint disable labels/conflict(prom2)
@@ -470,6 +476,7 @@ prometheus "prom2" {
 				checks.FragileCheckName,
 				checks.RegexpCheckName,
 				checks.RateCheckName + "(prom1)",
+				checks.CounterCheckName + "(prom1)",
 				checks.RangeQueryCheckName + "(prom1)",
 				checks.LabelsConflictCheckName + "(prom1)",
 				checks.SeriesCheckName + "(prom2)",
@@ -561,6 +568,7 @@ rule {
 			rule: newRule(t, `
 # pint disable promql/series
 # pint disable promql/rate
+# pint disable promql/counter
 # pint disable promql/vector_matching(prom1)
 # pint disable promql/vector_matching(prom2)
 # pint disable promql/range_query
@@ -825,6 +833,7 @@ rule {
 checks {
   disabled = [
     "promql/rate",
+    "promql/counter",
 	"promql/vector_matching",
 	"promql/range_query",
 	"rule/duplicate",
@@ -884,6 +893,7 @@ prometheus "prom1" {
 				checks.TemplateCheckName,
 				checks.FragileCheckName,
 				checks.RegexpCheckName, checks.RateCheckName + "(prom1)",
+				checks.CounterCheckName + "(prom1)",
 				checks.SeriesCheckName + "(prom1)",
 				checks.VectorMatchingCheckName + "(prom1)",
 				checks.RangeQueryCheckName + "(prom1)",
@@ -1191,7 +1201,7 @@ checks {
 				checks.FragileCheckName,
 				checks.RegexpCheckName,
 			},
-			disabledChecks: []string{"promql/rate", "promql/vector_matching", "rule/duplicate", "labels/conflict"},
+			disabledChecks: []string{"promql/rate", "promql/counter", "promql/vector_matching", "rule/duplicate", "labels/conflict"},
 		},
 		{
 			title: "two prometheus servers / snoozed checks via comment",
@@ -1230,7 +1240,7 @@ checks {
 				checks.SeriesCheckName + "(prom2)",
 				checks.LabelsConflictCheckName + "(prom2)",
 			},
-			disabledChecks: []string{"promql/rate"},
+			disabledChecks: []string{"promql/rate", "promql/counter"},
 		},
 		{
 			title: "two prometheus servers / expired snooze",
@@ -1273,7 +1283,7 @@ checks {
 				checks.RuleDuplicateCheckName + "(prom2)",
 				checks.LabelsConflictCheckName + "(prom2)",
 			},
-			disabledChecks: []string{"promql/rate"},
+			disabledChecks: []string{"promql/rate", "promql/counter"},
 		},
 		{
 			title: "tag disables all prometheus checks",
@@ -1299,6 +1309,7 @@ prometheus "prom3" {
 # pint disable promql/regexp(+disable)
 # pint disable promql/series(+disable)
 # pint disable promql/rate(+disable)
+# pint disable promql/counter(+disable)
 # pint disable promql/vector_matching(+disable)
 # pint disable rule/duplicate(+disable)
 - record: foo
@@ -1311,12 +1322,14 @@ prometheus "prom3" {
 				checks.TemplateCheckName,
 				checks.FragileCheckName,
 				checks.RegexpCheckName, checks.RateCheckName + "(prom2)",
+				checks.CounterCheckName + "(prom2)",
 				checks.SeriesCheckName + "(prom2)",
 				checks.VectorMatchingCheckName + "(prom2)",
 				checks.RangeQueryCheckName + "(prom2)",
 				checks.RuleDuplicateCheckName + "(prom2)",
 				checks.LabelsConflictCheckName + "(prom2)",
 				checks.RateCheckName + "(prom3)",
+				checks.CounterCheckName + "(prom3)",
 				checks.SeriesCheckName + "(prom3)",
 				checks.VectorMatchingCheckName + "(prom3)",
 				checks.RangeQueryCheckName + "(prom3)",
@@ -1348,6 +1361,7 @@ prometheus "prom3" {
 # pint snooze 2099-11-28 promql/regexp(+disable)
 # pint snooze 2099-11-28 promql/series(+disable)
 # pint snooze 2099-11-28 promql/rate(+disable)
+# pint snooze 2099-11-28 promql/counter(+disable)
 # pint snooze 2099-11-28 promql/vector_matching(+disable)
 # pint snooze 2099-11-28 rule/duplicate(+disable)
 - record: foo
@@ -1360,12 +1374,14 @@ prometheus "prom3" {
 				checks.TemplateCheckName,
 				checks.FragileCheckName,
 				checks.RegexpCheckName, checks.RateCheckName + "(prom2)",
+				checks.CounterCheckName + "(prom2)",
 				checks.SeriesCheckName + "(prom2)",
 				checks.VectorMatchingCheckName + "(prom2)",
 				checks.RangeQueryCheckName + "(prom2)",
 				checks.RuleDuplicateCheckName + "(prom2)",
 				checks.LabelsConflictCheckName + "(prom2)",
 				checks.RateCheckName + "(prom3)",
+				checks.CounterCheckName + "(prom3)",
 				checks.SeriesCheckName + "(prom3)",
 				checks.VectorMatchingCheckName + "(prom3)",
 				checks.RangeQueryCheckName + "(prom3)",
