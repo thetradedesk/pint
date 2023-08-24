@@ -25,6 +25,7 @@ type Rule struct {
 	For        *ForSettings         `hcl:"for,block" json:"for,omitempty"`
 	Reject     []RejectSettings     `hcl:"reject,block" json:"reject,omitempty"`
 	RuleLink   []RuleLinkSettings   `hcl:"link,block" json:"link,omitempty"`
+	Offset     []OffsetSettings     `hcl:"offset,block" json:"offset,omitempty"`
 }
 
 func (rule Rule) validate() (err error) {
@@ -85,6 +86,14 @@ func (rule Rule) validate() (err error) {
 	if rule.For != nil {
 		if err = rule.For.validate(); err != nil {
 			return err
+		}
+	}
+
+	if rule.Offset != nil {
+		for _, offset := range rule.Offset {
+			if err = offset.validate(); err != nil {
+				return err
+			}
 		}
 	}
 
@@ -257,6 +266,17 @@ func (rule Rule) resolveChecks(ctx context.Context, path string, r parser.Rule, 
 			name:  checks.RuleForCheckName,
 			check: checks.NewRuleForCheck(minFor, maxFor, severity),
 		})
+	}
+
+	if len(rule.Offset) > 0 {
+		for _, offset := range rule.Offset {
+			prefix := checks.MustTemplatedRegexp(offset.Prefix)
+			minOffset, _ := parseDuration(offset.Min)
+			enabled = append(enabled, checkMeta{
+				name:  checks.OffsetCheckName,
+				check: checks.NewOffsetCheck(prefix, minOffset),
+			})
+		}
 	}
 
 	return enabled
