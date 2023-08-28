@@ -28,7 +28,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ]
   },
   "owners": {}
@@ -78,7 +79,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ]
   },
   "owners": {}
@@ -131,7 +133,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ]
   },
   "owners": {}
@@ -181,7 +184,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ]
   },
   "owners": {}
@@ -217,7 +221,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ]
   },
   "rules": [
@@ -256,7 +261,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ]
   },
   "rules": [
@@ -313,7 +319,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ]
   },
   "rules": [
@@ -370,7 +377,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ]
   },
   "rules": [
@@ -414,7 +422,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ]
   },
   "rules": [
@@ -495,7 +504,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ]
   },
   "rules": [
@@ -551,7 +561,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ]
   },
   "rules": [
@@ -608,7 +619,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ]
   },
   "rules": [
@@ -665,7 +677,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ]
   },
   "rules": [
@@ -722,7 +735,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ]
   },
   "rules": [
@@ -779,7 +793,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ]
   },
   "rules": [
@@ -836,7 +851,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ]
   },
   "rules": [
@@ -893,7 +909,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ]
   },
   "rules": [
@@ -1080,7 +1097,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ]
   },
   "rules": [
@@ -1131,7 +1149,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ]
   },
   "rules": [
@@ -1182,7 +1201,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ]
   },
   "rules": [
@@ -1233,7 +1253,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ]
   },
   "rules": [
@@ -1284,7 +1305,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ]
   },
   "rules": [
@@ -1335,7 +1357,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ]
   },
   "rules": [
@@ -1386,7 +1409,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ]
   },
   "rules": [
@@ -1457,7 +1481,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ],
     "disabled": [
       "alerts/template"
@@ -1522,7 +1547,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ]
   },
   "rules": [
@@ -1591,7 +1617,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ],
     "disabled": [
       "promql/rate",
@@ -1664,7 +1691,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ],
     "disabled": [
       "alerts/template"
@@ -1749,7 +1777,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ]
   },
   "owners": {}
@@ -1799,7 +1828,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ]
   },
   "owners": {}
@@ -1861,7 +1891,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ]
   },
   "owners": {}
@@ -1912,7 +1943,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ]
   },
   "owners": {}
@@ -1974,7 +2006,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ]
   },
   "rules": [
@@ -2035,7 +2068,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ],
     "disabled": [
       "alerts/template",
@@ -2112,7 +2146,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ]
   },
   "owners": {}
@@ -2168,7 +2203,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ],
     "disabled": [
       "alerts/template",
@@ -2245,7 +2281,8 @@
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ]
   },
   "owners": {}

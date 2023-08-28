@@ -6,9 +6,10 @@ import (
 	"regexp"
 	"time"
 
+	promParser "github.com/prometheus/prometheus/promql/parser"
+	
 	"github.com/cloudflare/pint/internal/discovery"
 	"github.com/cloudflare/pint/internal/parser"
-	promParser "github.com/prometheus/prometheus/promql/parser"
 )
 
 const (
