@@ -176,14 +176,20 @@ func (fg *FailoverGroup) Metadata(ctx context.Context, metric string) (metadata 
 	for _, prom := range fg.servers {
 		uri = prom.safeURI
 		metadata, err = prom.Metadata(ctx, metric)
-		if err == nil && metadata != nil {
-			return metadata, nil
-		}
-		if metadata != nil {
-			return metadata, &FailoverGroupError{err: err, uri: uri, isStrict: fg.strictErrors}
+		if metadata != nil && metadata.Metadata != nil {
+			if err == nil {
+				return metadata, nil
+			} else {
+				return metadata, &FailoverGroupError{err: err, uri: uri, isStrict: fg.strictErrors}
+			}
 		}
 	}
-	return nil, &FailoverGroupError{err: err, uri: uri, isStrict: fg.strictErrors}
+	if err != nil {
+		return nil, &FailoverGroupError{err: err, uri: uri, isStrict: fg.strictErrors}
+	} else {
+		return metadata, nil
+	}
+
 }
 
 func (fg *FailoverGroup) Flags(ctx context.Context) (flags *FlagsResult, err error) {

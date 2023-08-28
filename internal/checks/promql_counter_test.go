@@ -11,30 +11,6 @@ import (
 	"github.com/cloudflare/pint/internal/promapi"
 )
 
-var (
-	respondWithInternalErrorThenGoodData func(writer responseWriter) responseWriter
-	respondWithEmptyDataThenGoodData     func(writer responseWriter) responseWriter
-)
-
-func init() {
-	respondWithInternalErrorThenGoodDataState := 0
-	respondWithInternalErrorThenGoodData = func(goodResponse responseWriter) responseWriter {
-		respondWithInternalErrorThenGoodDataState++
-		if respondWithInternalErrorThenGoodDataState == 0 {
-			return promError{code: 500, errorType: v1.ErrServer, err: "internal error"}
-		}
-		return goodResponse
-	}
-	respondWithEmptyDataThenGoodDataState := 0
-	respondWithEmptyDataThenGoodData = func(goodResponse responseWriter) responseWriter {
-		respondWithEmptyDataThenGoodDataState++
-		if respondWithEmptyDataThenGoodDataState == 0 {
-			return metadataResponse{metadata: map[string][]v1.Metadata{}}
-		}
-		return goodResponse
-	}
-}
-
 func newCounterCheck(prom *promapi.FailoverGroup) checks.RuleChecker {
 	return checks.NewCounterCheck(prom)
 }
@@ -262,45 +238,17 @@ func TestCounterCheck(t *testing.T) {
 				},
 			},
 		},
-		{
-			description: "500 error from first Prometheus API - use counter with rate",
-			content:     "- record: foo\n  expr: rate(foo[5m])\n",
-			checker:     newCounterCheck,
-			prometheus:  newDoubleProm,
-			problems:    noProblems,
 
-			mocks: []*prometheusMock{
-				{
-					conds: []requestCondition{requireMetadataPath},
-					resp: respondWithInternalErrorThenGoodData(metadataResponse{metadata: map[string][]v1.Metadata{
-						"foo": {{Type: "counter"}},
-					}}),
-				},
-			},
-		},
 		{
 			description: "empty data from first Prometheus API - use counter with delta",
 			content:     "- record: foo\n  expr: delta(foo[5m])\n",
 			checker:     newCounterCheck,
 			prometheus:  newDoubleProm,
-			problems: func(uri string) []checks.Problem {
-				return []checks.Problem{
-					{
-						Fragment: "foo",
-						Lines:    []int{2},
-						Reporter: "promql/counter",
-						Text:     CounterMustUseFuncTextForRecordingRule("foo"),
-						Severity: checks.Warning,
-					},
-				}
-			},
-
+			problems:    noProblems,
 			mocks: []*prometheusMock{
 				{
 					conds: []requestCondition{requireMetadataPath},
-					resp: respondWithEmptyDataThenGoodData(metadataResponse{metadata: map[string][]v1.Metadata{
-						"foo": {{Type: "counter"}},
-					}}),
+					resp:  metadataResponse{metadata: map[string][]v1.Metadata{}},
 				},
 			},
 		},
