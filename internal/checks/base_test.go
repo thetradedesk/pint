@@ -76,6 +76,25 @@ func simpleProm(name, uri string, timeout time.Duration, required bool) *promapi
 	)
 }
 
+func doubleProm(name, uri string, timeout time.Duration, required bool) *promapi.FailoverGroup {
+	return promapi.NewFailoverGroup(
+		name,
+		[]*promapi.Prometheus{
+			promapi.NewPrometheus(name, uri, map[string]string{"X-Debug": "1"}, timeout, 16, 1000, nil),
+			promapi.NewPrometheus(name+"2", uri, map[string]string{"X-Debug": "1"}, timeout, 16, 1000, nil),
+		},
+		required,
+		"up",
+		nil,
+		nil,
+		nil,
+	)
+}
+
+func newDoubleProm(uri string) *promapi.FailoverGroup {
+	return doubleProm("prom", uri, time.Second*5, true)
+}
+
 func newSimpleProm(uri string) *promapi.FailoverGroup {
 	return simpleProm("prom", uri, time.Second*5, true)
 }
