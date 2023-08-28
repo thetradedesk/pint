@@ -116,7 +116,8 @@ level=info msg="Loading configuration file" path=.pint.hcl
       "rule/for",
       "rule/label",
       "rule/link",
-      "rule/reject"
+      "rule/reject",
+      "promql/offset"
     ],
     "disabled": [
       "promql/fragile"
