@@ -213,8 +213,8 @@ func TestCounterCheck(t *testing.T) {
 						Fragment: "foo",
 						Lines:    []int{2},
 						Reporter: "promql/counter",
-						Text:     checkCounterErrorUnableToRun(checks.CounterCheckName, "prom", uri, "server_error: internal error"),
-						Severity: checks.Warning,
+						Text:     checkErrorUnableToRun(checks.CounterCheckName, "prom", uri, "server_error: internal error"),
+						Severity: checks.Bug,
 					},
 				}
 			},
@@ -228,8 +228,4 @@ func TestCounterCheck(t *testing.T) {
 	}
 
 	runTests(t, testCases)
-}
-
-func checkCounterErrorUnableToRun(c, name, uri, err string) string {
-	return fmt.Sprintf(`couldn't run %q checks due to missing metrics metadata. prometheus %q at %s connection error: %s`, c, name, uri, err)
 }

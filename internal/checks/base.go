@@ -130,7 +130,7 @@ type exprProblem struct {
 	severity Severity
 }
 
-func getPromDescAndPerr(err error, prom string) (string, *promapi.FailoverGroupError) {
+func textAndSeverityFromError(err error, reporter, prom string, s Severity) (text string, severity Severity) {
 	promDesc := fmt.Sprintf("%q", prom)
 	var perr *promapi.FailoverGroupError
 	perrOk := errors.As(err, &perr)
@@ -139,12 +139,6 @@ func getPromDescAndPerr(err error, prom string) (string, *promapi.FailoverGroupE
 			promDesc = promText(prom, uri)
 		}
 	}
-	return promDesc, perr
-}
-
-func textAndSeverityFromError(err error, reporter, prom string, s Severity) (text string, severity Severity) {
-	promDesc, perr := getPromDescAndPerr(err, prom)
-	perrOk := perr != nil
 
 	switch {
 	case promapi.IsQueryTooExpensive(err):

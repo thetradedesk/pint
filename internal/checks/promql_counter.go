@@ -82,13 +82,13 @@ func (c CounterCheck) checkNode(ctx context.Context, node *parser.PromQLNode, en
 			}
 		} else {
 			metadata, err := c.prom.Metadata(ctx, s.Name)
-			promDesc, _ := getPromDescAndPerr(err, c.prom.Name())
-			text := fmt.Sprintf("couldn't run %q checks due to missing metrics metadata. %s connection error: %s", c.Reporter(), promDesc, err)
+
 			if metadata == nil {
+				text, severity := textAndSeverityFromError(err, c.Reporter(), c.prom.Name(), Warning)
 				problems = append(problems, exprProblem{
 					expr:     s.Name,
 					text:     text,
-					severity: Warning,
+					severity: severity,
 				})
 				return problems
 			}
