@@ -243,7 +243,7 @@ func TestCounterCheck(t *testing.T) {
 			description: "empty data from first Prometheus API - use counter with delta",
 			content:     "- record: foo\n  expr: delta(foo[5m])\n",
 			checker:     newCounterCheck,
-			prometheus:  newDoubleProm,
+			prometheus:  newSimpleProm,
 			problems:    noProblems,
 			mocks: []*prometheusMock{
 				{
