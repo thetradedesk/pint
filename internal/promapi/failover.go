@@ -188,9 +188,8 @@ func (fg *FailoverGroup) Metadata(ctx context.Context, metric string) (metadata 
 	}
 	if err != nil {
 		return nil, &FailoverGroupError{err: err, uri: uri, isStrict: fg.strictErrors}
-	} else {
-		return metadata, nil
 	}
+	return metadata, nil
 }
 
 func (fg *FailoverGroup) Flags(ctx context.Context) (flags *FlagsResult, err error) {
