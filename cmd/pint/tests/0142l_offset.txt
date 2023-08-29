@@ -1,0 +1,28 @@
+pint.error --no-color lint rules
+! stdout .
+cmp stderr stderr.txt
+
+-- stderr.txt --
+level=info msg="Loading configuration file" path=.pint.hcl
+rules/0001.yml:4 Warning: the cloud_metric offset 3m metric requires a minimum offset of 5m0s (promql/offset)
+ 6 |   expr: cloud_metric offset 3m
+
+level=info msg="Problems found" Warning=1
+-- rules/0001.yml --
+- alert: ignored
+  expr: regular_metric
+- alert: not ok
+  expr: cloud_metric offset 3m
+- alert: ok
+  expr: cloud_metric offset 10m
+
+-- .pint.hcl --
+parser {
+  relaxed = [".*"]
+}
+rule {
+  offset {
+    prefix = "cloud_.*"
+    min = 5m
+  }
+}
