@@ -23,6 +23,6 @@ parser {
 rule {
     offset {
         prefix = "cloud_.*"
-        min    = 5m
+        min    = "5m"
     }
 }

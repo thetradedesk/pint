@@ -6,7 +6,7 @@ import (
 )
 
 type OffsetSettings struct {
-	Prefix string `hcl:"regex" json:"regex,omitempty"`
+	Prefix string `hcl:"prefix" json:"regex,omitempty"`
 	Min    string `hcl:"min" json:"min,omitempty"`
 }
 
