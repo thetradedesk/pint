@@ -1,4 +1,4 @@
-pint.error --no-color lint rules
+pint.ok --no-color lint rules
 ! stdout .
 cmp stderr stderr.txt
 
@@ -10,11 +10,11 @@ rules/0001.yml:4 Warning: the cloud_metric offset 3m metric requires a minimum o
 level=info msg="Problems found" Warning=1
 -- rules/0001.yml --
 - alert: ignored
-  expr: regular_metric
+  expr: regular_metric == 0
 - alert: not ok
-  expr: cloud_metric offset 3m
+  expr: cloud_metric offset 3m == 0
 - alert: ok
-  expr: cloud_metric offset 10m
+  expr: cloud_metric offset 10m == 0
 
 -- .pint.hcl --
 parser {
