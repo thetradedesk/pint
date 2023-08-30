@@ -16,13 +16,15 @@ Syntax:
 
 ```js
 offset {
-  prefix = "$pattern"  
-  min    = "###u"
+  prefix   = "$pattern"  
+  min      = "###u"
+  severity = "severity"
 }
 ```
 
-- `prefix` - regexp pattern to match metric name prefix on,
-- `min`    - minimum duration the look back offset must be set to, `10m` would mean 10 minutes
+- `prefix`   - regexp pattern to match metric name prefix on,
+- `min`      - minimum duration the look back offset must be set to, `10m` would mean 10 minutes
+- `severity` - optional severity level when check fails. Defaults to `warning` if not specified.
 
 ## How to enable it
 
@@ -38,8 +40,26 @@ Ensure that all metrics beginning with `aws_` have a minimum offset of 5 minutes
 ```js
 rule {
   offset {
-    prefix = "aws_.*"
-    min    = "5m"
+    prefix   = "aws_.*"
+    min      = "5m"
+    severity = "bug"
+  }
+}
+```
+
+Handle multiple patterns with different offsets:
+
+```js
+rule {
+  offset {
+    prefix   = "pattern1_.*"
+    min      = "5m"
+    severity = "bug"
+  }
+  
+  offset {
+    prefix   = "(pattern2_|pattern3).*"
+    min      = "7m"
   }
 }
 ```

@@ -16,13 +16,14 @@ const (
 	OffsetCheckName = "promql/offset"
 )
 
-func NewOffsetCheck(prefix *TemplatedRegexp, minimumOffset time.Duration) OffsetCheck {
-	return OffsetCheck{prefixRegex: prefix, min: minimumOffset}
+func NewOffsetCheck(prefix *TemplatedRegexp, minimumOffset time.Duration, severity Severity) OffsetCheck {
+	return OffsetCheck{prefixRegex: prefix, min: minimumOffset, severity: severity}
 }
 
 type OffsetCheck struct {
 	prefixRegex *TemplatedRegexp
 	min         time.Duration
+	severity    Severity
 }
 
 func (c OffsetCheck) Meta() CheckMeta {
@@ -52,7 +53,7 @@ func (c OffsetCheck) Check(_ context.Context, _ string, rule parser.Rule, _ []di
 				Lines:    expr.Lines(),
 				Reporter: c.Reporter(),
 				Text:     fmt.Sprintf("the %s metric requires a minimum offset of %s", selector.String(), c.min.String()),
-				Severity: Warning,
+				Severity: c.severity,
 			})
 		}
 

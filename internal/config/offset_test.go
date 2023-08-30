@@ -53,6 +53,14 @@ func TestOffsetSettings(t *testing.T) {
 			},
 			err: errors.New("unknown unit \"c\" in duration \"3c\""),
 		},
+		{
+			conf: OffsetSettings{
+				Prefix:   "azure_.*",
+				Min:      "10m",
+				Severity: "crab",
+			},
+			err: errors.New("unknown severity: crab"),
+		},
 	}
 
 	for _, tc := range testCases {

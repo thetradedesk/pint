@@ -10,7 +10,7 @@ import (
 
 func newOffsetCheck(_ *promapi.FailoverGroup) checks.RuleChecker {
 	dur, _ := time.ParseDuration("5m")
-	return checks.NewOffsetCheck(checks.MustTemplatedRegexp("aws_.*"), dur)
+	return checks.NewOffsetCheck(checks.MustTemplatedRegexp("aws_.*"), dur, checks.Bug)
 }
 
 func TestOffsetCheck(t *testing.T) {
@@ -48,7 +48,7 @@ func TestOffsetCheck(t *testing.T) {
 						Lines:    []int{2},
 						Reporter: checks.OffsetCheckName,
 						Text:     `the aws_foo metric requires a minimum offset of 5m0s`,
-						Severity: checks.Warning,
+						Severity: checks.Bug,
 					},
 				}
 			},
@@ -65,7 +65,7 @@ func TestOffsetCheck(t *testing.T) {
 						Lines:    []int{2},
 						Reporter: checks.OffsetCheckName,
 						Text:     `the aws_foo offset 2m metric requires a minimum offset of 5m0s`,
-						Severity: checks.Warning,
+						Severity: checks.Bug,
 					},
 				}
 			},
@@ -82,7 +82,31 @@ func TestOffsetCheck(t *testing.T) {
 						Lines:    []int{2},
 						Reporter: checks.OffsetCheckName,
 						Text:     `the aws_bar metric requires a minimum offset of 5m0s`,
-						Severity: checks.Warning,
+						Severity: checks.Bug,
+					},
+				}
+			},
+		},
+		{
+			description: "check doesn't fail valid recording rule",
+			content:     "- record: foo\n  expr: sum(aws_foo offset 10m)\n",
+			checker:     newOffsetCheck,
+			prometheus:  newSimpleProm,
+			problems:    noProblems,
+		},
+		{
+			description: "check fails invalid recording rule",
+			content:     "- record: foo\n  expr: count(aws_foo offset 2m)\n",
+			checker:     newOffsetCheck,
+			prometheus:  newSimpleProm,
+			problems: func(_ string) []checks.Problem {
+				return []checks.Problem{
+					{
+						Fragment: "aws_foo offset 2m",
+						Lines:    []int{2},
+						Reporter: checks.OffsetCheckName,
+						Text:     `the aws_foo offset 2m metric requires a minimum offset of 5m0s`,
+						Severity: checks.Bug,
 					},
 				}
 			},

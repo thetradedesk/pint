@@ -272,9 +272,10 @@ func (rule Rule) resolveChecks(ctx context.Context, path string, r parser.Rule, 
 		for _, offset := range rule.Offset {
 			prefix := checks.MustTemplatedRegexp(offset.Prefix)
 			minOffset, _ := parseDuration(offset.Min)
+			severity := offset.getSeverity(checks.Warning)
 			enabled = append(enabled, checkMeta{
 				name:  checks.OffsetCheckName,
-				check: checks.NewOffsetCheck(prefix, minOffset),
+				check: checks.NewOffsetCheck(prefix, minOffset, severity),
 			})
 		}
 	}

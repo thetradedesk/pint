@@ -2,12 +2,14 @@ package config
 
 import (
 	"errors"
+	"github.com/cloudflare/pint/internal/checks"
 	"regexp"
 )
 
 type OffsetSettings struct {
-	Prefix string `hcl:"prefix" json:"regex,omitempty"`
-	Min    string `hcl:"min" json:"min,omitempty"`
+	Prefix   string `hcl:"prefix" json:"regex,omitempty"`
+	Min      string `hcl:"min" json:"min,omitempty"`
+	Severity string `hcl:"severity,optional" json:"severity,omitempty"`
 }
 
 func (s OffsetSettings) validate() error {
@@ -27,5 +29,19 @@ func (s OffsetSettings) validate() error {
 		return err
 	}
 
+	if s.Severity != "" {
+		if _, err := checks.ParseSeverity(s.Severity); err != nil {
+			return err
+		}
+	}
+
 	return nil
+}
+
+func (s OffsetSettings) getSeverity(fallback checks.Severity) checks.Severity {
+	if s.Severity != "" {
+		sev, _ := checks.ParseSeverity(s.Severity)
+		return sev
+	}
+	return fallback
 }
