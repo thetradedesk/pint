@@ -220,17 +220,7 @@ func TestCounterCheck(t *testing.T) {
 			content:     "- record: foo\n  expr: rate(foo[5m])\n",
 			checker:     newCounterCheck,
 			prometheus:  newSimpleProm,
-			problems: func(uri string) []checks.Problem {
-				return []checks.Problem{
-					{
-						Fragment: "foo",
-						Lines:    []int{2},
-						Reporter: "promql/counter",
-						Text:     checkErrorUnableToRun(checks.CounterCheckName, "prom", uri, "server_error: internal error"),
-						Severity: checks.Bug,
-					},
-				}
-			},
+			problems:    noProblems,
 			mocks: []*prometheusMock{
 				{
 					conds: []requestCondition{requireMetadataPath},
@@ -240,7 +230,7 @@ func TestCounterCheck(t *testing.T) {
 		},
 
 		{
-			description: "empty data from first Prometheus API - use counter with delta",
+			description: "empty data from Prometheus API",
 			content:     "- record: foo\n  expr: delta(foo[5m])\n",
 			checker:     newCounterCheck,
 			prometheus:  newSimpleProm,

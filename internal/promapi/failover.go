@@ -171,25 +171,19 @@ func (fg *FailoverGroup) RangeQuery(ctx context.Context, expr string, params Ran
 	return nil, &FailoverGroupError{err: err, uri: uri, isStrict: fg.strictErrors}
 }
 
-// This function treats FailoverGroup differently to pint's original intention. Rather than assuming every server in the group is identical, we have a collection of servers each with different metrics.
-// A single server failure is not catastrophic, and we care more about retrieving the metric metadata then reporting a single server error.
 func (fg *FailoverGroup) Metadata(ctx context.Context, metric string) (metadata *MetadataResult, err error) {
 	var uri string
 	for _, prom := range fg.servers {
 		uri = prom.safeURI
 		metadata, err = prom.Metadata(ctx, metric)
-		if metadata != nil && metadata.Metadata != nil {
-			if err == nil {
-				return metadata, nil
-			} else {
-				return metadata, &FailoverGroupError{err: err, uri: uri, isStrict: fg.strictErrors}
-			}
+		if err == nil {
+			return metadata, nil
+		}
+		if !IsUnavailableError(err) {
+			return metadata, &FailoverGroupError{err: err, uri: uri, isStrict: fg.strictErrors}
 		}
 	}
-	if err != nil {
-		return nil, &FailoverGroupError{err: err, uri: uri, isStrict: fg.strictErrors}
-	}
-	return metadata, nil
+	return nil, &FailoverGroupError{err: err, uri: uri, isStrict: fg.strictErrors}
 }
 
 func (fg *FailoverGroup) Flags(ctx context.Context) (flags *FlagsResult, err error) {

@@ -81,15 +81,10 @@ func (c CounterCheck) checkNode(ctx context.Context, node *parser.PromQLNode, en
 				return problems
 			}
 		} else {
-			metadata, err := c.prom.Metadata(ctx, s.Name)
+			metadata, _ := c.prom.Metadata(ctx, s.Name)
 
-			if metadata == nil {
-				text, severity := textAndSeverityFromError(err, c.Reporter(), c.prom.Name(), Warning)
-				problems = append(problems, exprProblem{
-					expr:     s.Name,
-					text:     text,
-					severity: severity,
-				})
+			// We ignore errors or missing metadata from prometheus servers.
+			if metadata == nil || metadata.Metadata == nil {
 				return problems
 			}
 
