@@ -2,8 +2,9 @@ package config
 
 import (
 	"errors"
-	"github.com/cloudflare/pint/internal/checks"
 	"regexp"
+
+	"github.com/cloudflare/pint/internal/checks"
 )
 
 type OffsetSettings struct {
