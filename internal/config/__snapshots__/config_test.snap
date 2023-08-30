@@ -290,6 +290,58 @@
 }
 ---
 
+[TestGetChecksForRule/rule_with_offset_checks - 1]
+{
+  "ci": {
+    "maxCommits": 20,
+    "baseBranch": "master"
+  },
+  "parser": {},
+  "checks": {
+    "enabled": [
+      "alerts/annotation",
+      "alerts/count",
+      "alerts/for",
+      "alerts/template",
+      "labels/conflict",
+      "promql/aggregate",
+      "alerts/comparison",
+      "promql/fragile",
+      "promql/range_query",
+      "promql/rate",
+      "promql/counter",
+      "promql/regexp",
+      "promql/syntax",
+      "promql/vector_matching",
+      "query/cost",
+      "promql/series",
+      "rule/duplicate",
+      "rule/for",
+      "rule/label",
+      "rule/link",
+      "rule/reject",
+      "promql/offset"
+    ]
+  },
+  "rules": [
+    {
+      "offset": [
+        {
+          "regex": "cloud1_.*",
+          "min": "5m",
+          "severity": "bug"
+        },
+        {
+          "regex": "cloud2_.*",
+          "min": "7m"
+        }
+      ]
+    }
+  ],
+  "owners": {}
+}
+---
+
 [TestGetChecksForRule/multiple_checks_and_disable_comment - 1]
 {
   "ci": {
@@ -2854,6 +2906,58 @@
 }
 ---
 
+[TestGetChecksForRule/rule_with_offset_checks - 2]
+{
+  "ci": {
+    "maxCommits": 20,
+    "baseBranch": "master"
+  },
+  "parser": {},
+  "checks": {
+    "enabled": [
+      "alerts/annotation",
+      "alerts/count",
+      "alerts/for",
+      "alerts/template",
+      "labels/conflict",
+      "promql/aggregate",
+      "alerts/comparison",
+      "promql/fragile",
+      "promql/range_query",
+      "promql/rate",
+      "promql/counter",
+      "promql/regexp",
+      "promql/syntax",
+      "promql/vector_matching",
+      "query/cost",
+      "promql/series",
+      "rule/duplicate",
+      "rule/for",
+      "rule/label",
+      "rule/link",
+      "rule/reject",
+      "promql/offset"
+    ]
+  },
+  "rules": [
+    {
+      "offset": [
+        {
+          "regex": "cloud1_.*",
+          "min": "5m",
+          "severity": "bug"
+        },
+        {
+          "regex": "cloud2_.*",
+          "min": "7m"
+        }
+      ]
+    }
+  ],
+  "owners": {}
+}
+---
+
 [TestGetChecksForRule/multiple_checks_and_disable_comment - 2]
 {
   "ci": {
@@ -5136,6 +5240,58 @@
             "rack"
           ],
           "severity": "bug"
+        }
+      ]
+    }
+  ],
+  "owners": {}
+}
+---
+
+[TestGetChecksForRule/rule_with_offset_checks - 3]
+{
+  "ci": {
+    "maxCommits": 20,
+    "baseBranch": "master"
+  },
+  "parser": {},
+  "checks": {
+    "enabled": [
+      "alerts/annotation",
+      "alerts/count",
+      "alerts/for",
+      "alerts/template",
+      "labels/conflict",
+      "promql/aggregate",
+      "alerts/comparison",
+      "promql/fragile",
+      "promql/range_query",
+      "promql/rate",
+      "promql/counter",
+      "promql/regexp",
+      "promql/syntax",
+      "promql/vector_matching",
+      "query/cost",
+      "promql/series",
+      "rule/duplicate",
+      "rule/for",
+      "rule/label",
+      "rule/link",
+      "rule/reject",
+      "promql/offset"
+    ]
+  },
+  "rules": [
+    {
+      "offset": [
+        {
+          "regex": "cloud1_.*",
+          "min": "5m",
+          "severity": "bug"
+        },
+        {
+          "regex": "cloud2_.*",
+          "min": "7m"
         }
       ]
     }
@@ -7434,6 +7590,58 @@
 }
 ---
 
+[TestGetChecksForRule/rule_with_offset_checks - 4]
+{
+  "ci": {
+    "maxCommits": 20,
+    "baseBranch": "master"
+  },
+  "parser": {},
+  "checks": {
+    "enabled": [
+      "alerts/annotation",
+      "alerts/count",
+      "alerts/for",
+      "alerts/template",
+      "labels/conflict",
+      "promql/aggregate",
+      "alerts/comparison",
+      "promql/fragile",
+      "promql/range_query",
+      "promql/rate",
+      "promql/counter",
+      "promql/regexp",
+      "promql/syntax",
+      "promql/vector_matching",
+      "query/cost",
+      "promql/series",
+      "rule/duplicate",
+      "rule/for",
+      "rule/label",
+      "rule/link",
+      "rule/reject",
+      "promql/offset"
+    ]
+  },
+  "rules": [
+    {
+      "offset": [
+        {
+          "regex": "cloud1_.*",
+          "min": "5m",
+          "severity": "bug"
+        },
+        {
+          "regex": "cloud2_.*",
+          "min": "7m"
+        }
+      ]
+    }
+  ],
+  "owners": {}
+}
+---
+
 [TestGetChecksForRule/multiple_checks_and_disable_comment - 4]
 {
   "ci": {
@@ -9724,6 +9932,58 @@
 }
 ---
 
+[TestGetChecksForRule/rule_with_offset_checks - 5]
+{
+  "ci": {
+    "maxCommits": 20,
+    "baseBranch": "master"
+  },
+  "parser": {},
+  "checks": {
+    "enabled": [
+      "alerts/annotation",
+      "alerts/count",
+      "alerts/for",
+      "alerts/template",
+      "labels/conflict",
+      "promql/aggregate",
+      "alerts/comparison",
+      "promql/fragile",
+      "promql/range_query",
+      "promql/rate",
+      "promql/counter",
+      "promql/regexp",
+      "promql/syntax",
+      "promql/vector_matching",
+      "query/cost",
+      "promql/series",
+      "rule/duplicate",
+      "rule/for",
+      "rule/label",
+      "rule/link",
+      "rule/reject",
+      "promql/offset"
+    ]
+  },
+  "rules": [
+    {
+      "offset": [
+        {
+          "regex": "cloud1_.*",
+          "min": "5m",
+          "severity": "bug"
+        },
+        {
+          "regex": "cloud2_.*",
+          "min": "7m"
+        }
+      ]
+    }
+  ],
+  "owners": {}
+}
+---
+
 [TestGetChecksForRule/multiple_checks_and_disable_comment - 5]
 {
   "ci": {
@@ -11449,54 +11709,3 @@
 }
 ---
 
-[TestGetChecksForRule/rule_with_offset_checks - 1]
-{
-  "ci": {
-    "maxCommits": 20,
-    "baseBranch": "master"
-  },
-  "parser": {},
-  "checks": {
-    "enabled": [
-      "alerts/annotation",
-      "alerts/count",
-      "alerts/for",
-      "alerts/template",
-      "labels/conflict",
-      "promql/aggregate",
-      "alerts/comparison",
-      "promql/fragile",
-      "promql/range_query",
-      "promql/rate",
-      "promql/counter",
-      "promql/regexp",
-      "promql/syntax",
-      "promql/vector_matching",
-      "query/cost",
-      "promql/series",
-      "rule/duplicate",
-      "rule/for",
-      "rule/label",
-      "rule/link",
-      "rule/reject",
-      "promql/offset"
-    ]
-  },
-  "rules": [
-    {
-      "offset": [
-        {
-          "regex": "cloud1_.*",
-          "min": "5m",
-          "severity": "bug"
-        },
-        {
-          "regex": "cloud2_.*",
-          "min": "7m"
-        }
-      ]
-    }
-  ],
-  "owners": {}
-}
----
