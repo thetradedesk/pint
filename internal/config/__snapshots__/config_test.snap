@@ -11448,3 +11448,55 @@
   "owners": {}
 }
 ---
+
+[TestGetChecksForRule/rule_with_offset_checks - 1]
+{
+  "ci": {
+    "maxCommits": 20,
+    "baseBranch": "master"
+  },
+  "parser": {},
+  "checks": {
+    "enabled": [
+      "alerts/annotation",
+      "alerts/count",
+      "alerts/for",
+      "alerts/template",
+      "labels/conflict",
+      "promql/aggregate",
+      "alerts/comparison",
+      "promql/fragile",
+      "promql/range_query",
+      "promql/rate",
+      "promql/counter",
+      "promql/regexp",
+      "promql/syntax",
+      "promql/vector_matching",
+      "query/cost",
+      "promql/series",
+      "rule/duplicate",
+      "rule/for",
+      "rule/label",
+      "rule/link",
+      "rule/reject",
+      "promql/offset"
+    ]
+  },
+  "rules": [
+    {
+      "offset": [
+        {
+          "regex": "cloud1_.*",
+          "min": "5m",
+          "severity": "bug"
+        },
+        {
+          "regex": "cloud2_.*",
+          "min": "7m"
+        }
+      ]
+    }
+  ],
+  "owners": {}
+}
+---

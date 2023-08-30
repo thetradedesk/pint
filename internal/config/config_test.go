@@ -390,6 +390,33 @@ rule {
 			},
 		},
 		{
+			title: "rule with offset checks",
+			config: `
+rule {
+  offset {
+    prefix = "cloud1_.*"
+	min    = "5m"
+    severity = "bug"
+  }
+  offset {
+    prefix = "cloud2_.*"
+    min = "7m"
+  }
+}`,
+			path: "rules.yml",
+			rule: newRule(t, "- record: foo\n  expr: sum(foo)\n"),
+			checks: []string{
+				checks.SyntaxCheckName,
+				checks.AlertForCheckName,
+				checks.ComparisonCheckName,
+				checks.TemplateCheckName,
+				checks.FragileCheckName,
+				checks.RegexpCheckName,
+				checks.OffsetCheckName + "(^cloud1_.*$)",
+				checks.OffsetCheckName + "(^cloud2_.*$)",
+			},
+		},
+		{
 			title: "multiple checks and disable comment",
 			config: `
 rule {

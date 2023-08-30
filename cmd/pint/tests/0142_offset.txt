@@ -14,6 +14,7 @@ rules/0001.yml:12 Warning: the cloud3_metric offset 6m metric requires a minimum
  12 |   expr: cloud3_metric offset 6m == 0
 
 level=info msg="Problems found" Bug=1 Warning=2
+level=fatal msg="Fatal error" error="found 1 problem(s) with severity Bug or higher"
 -- rules/0001.yml --
 - alert: ignored
   expr: regular_metric == 0
@@ -34,10 +35,10 @@ parser {
 }
 rule {
   offset {
-    prefix = "cloud_.*"
-    min    = "5m"
+    prefix   = "cloud_.*"
+    min      = "5m"
     severity = "bug"
-    }
+  }
 
   offset {
     prefix = "(cloud2_|cloud3_).*"

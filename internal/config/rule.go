@@ -89,11 +89,9 @@ func (rule Rule) validate() (err error) {
 		}
 	}
 
-	if rule.Offset != nil {
-		for _, offset := range rule.Offset {
-			if err = offset.validate(); err != nil {
-				return err
-			}
+	for _, offset := range rule.Offset {
+		if err = offset.validate(); err != nil {
+			return err
 		}
 	}
 

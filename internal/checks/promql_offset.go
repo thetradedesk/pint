@@ -31,7 +31,7 @@ func (c OffsetCheck) Meta() CheckMeta {
 }
 
 func (c OffsetCheck) String() string {
-	return OffsetCheckName
+	return fmt.Sprintf("%s(%s)", OffsetCheckName, c.prefixRegex.anchored)
 }
 
 func (c OffsetCheck) Reporter() string {
