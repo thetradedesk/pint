@@ -6,9 +6,9 @@ grand_parent: Documentation
 
 # promql/offset
 
-This check will warn if a metric selector name matches a configured prefix and doesn't have a minimum offset.
+This check inspects metric selectors whose name matches a specified prefix and doesn't have a corresponding minimum offset.
 Some cloud monitoring services (e.g. AWS CloudWatch) metrics' have a delay before reaching Prometheus,
-so queries on these metrics should be used with an offset that matches the delay to look at the "past".
+so queries on these metrics should be used with an offset that matches or exceeds the delay.
 
 ## Configuration
 
