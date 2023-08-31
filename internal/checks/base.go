@@ -34,6 +34,7 @@ var (
 		LabelCheckName,
 		RuleLinkCheckName,
 		RejectCheckName,
+		OffsetCheckName,
 	}
 	OnlineChecks = []string{
 		AlertsCheckName,
