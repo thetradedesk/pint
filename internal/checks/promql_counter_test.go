@@ -202,6 +202,42 @@ func TestCounterCheck(t *testing.T) {
 				},
 			},
 		},
+		{
+			description: "empty data from Prometheus API",
+			content:     "- alert: my alert\n  expr: irate(foo[5m])\n",
+			checker:     newCounterCheck,
+			prometheus:  newSimpleProm,
+			problems:    noProblems,
+			mocks: []*prometheusMock{
+				{
+					conds: []requestCondition{requireMetadataPath},
+					resp:  metadataResponse{metadata: map[string][]v1.Metadata{}},
+				},
+			},
+		},
+		{
+			description: "500 error from Prometheus API",
+			content:     "- record: foo\n  expr: rate(foo[5m])\n",
+			checker:     newCounterCheck,
+			prometheus:  newSimpleProm,
+			problems: func(uri string) []checks.Problem {
+				return []checks.Problem{
+					{
+						Fragment: "foo",
+						Lines:    []int{2},
+						Reporter: "promql/counter",
+						Text:     checkErrorUnableToRun(checks.CounterCheckName, "prom", uri, "server_error: internal error"),
+						Severity: checks.Bug,
+					},
+				}
+			},
+			mocks: []*prometheusMock{
+				{
+					conds: []requestCondition{requireMetadataPath},
+					resp:  respondWithInternalError(),
+				},
+			},
+		},
 	}
 
 	runTests(t, testCases)
