@@ -7,7 +7,7 @@ stderr 'level=error msg="Query returned an error" error="server error: 502" quer
 stderr 'level=error msg="Query returned an error" error="server error: 502" query=foo uri=http://127.0.0.1:7104'
 stderr 'level=error msg="Query returned an error" error="server error: 502" query=/api/v1/status/flags uri=http://127.0.0.1:7104'
 stderr 'level=error msg="Query returned an error" error="server error: 502" query=count\(foo\) uri=http://127.0.0.1:7104'
-stderr 'level=info msg="Problems found" Bug=4'
+stderr 'level=info msg="Problems found" Bug=3'
 -- rules/0001.yml --
 # This should skip all online checks
 # pint file/disable promql/series
