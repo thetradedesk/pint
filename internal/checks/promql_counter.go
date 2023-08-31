@@ -82,7 +82,6 @@ func (c CounterCheck) checkNode(ctx context.Context, node *parser.PromQLNode, en
 			}
 		} else {
 			metadata, err := c.prom.Metadata(ctx, s.Name)
-
 			if err != nil {
 				text, severity := textAndSeverityFromError(err, c.Reporter(), c.prom.Name(), Bug)
 				problems = append(problems, exprProblem{
