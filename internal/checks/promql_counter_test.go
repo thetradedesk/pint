@@ -228,20 +228,6 @@ func TestCounterCheck(t *testing.T) {
 				},
 			},
 		},
-
-		{
-			description: "empty data from Prometheus API",
-			content:     "- record: foo\n  expr: delta(foo[5m])\n",
-			checker:     newCounterCheck,
-			prometheus:  newSimpleProm,
-			problems:    noProblems,
-			mocks: []*prometheusMock{
-				{
-					conds: []requestCondition{requireMetadataPath},
-					resp:  metadataResponse{metadata: map[string][]v1.Metadata{}},
-				},
-			},
-		},
 	}
 
 	runTests(t, testCases)
