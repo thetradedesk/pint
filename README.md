@@ -31,3 +31,18 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ```
+
+# The Trade Desk
+
+## Windows 
+
+- Use VsCode and WSL
+- Install Go extension (enable for WSL)
+- Install Markdown lint
+- Don't install Go via Snap
+
+## Windows (GoLand)
+
+- Install latest GO `SDK` (e.g. >= 1.20)  and set its path to `GOROOT` variable. (e.g. `GoLand` has a setting to update the path)
+- Run `go mod tidy`
+- Now we are ready to GO!
